@@ -25,14 +25,13 @@
   padding-left: 32px;
   font-size: 20px;
   font-weight: 700;
-  
 }
 
 .modal__caption {
-    margin: 20px 0 12px;
+  margin: 20px 0 12px;
 }
 
 .modal__weather {
-    margin-top: 12px;
-    margin-bottom: 32px;
+  margin-top: 12px;
+  margin-bottom: 32px;
 }

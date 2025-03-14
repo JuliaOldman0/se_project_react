@@ -1,103 +1,101 @@
 .modal {
-    position: fixed;
-    top:0;
-    left:0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
 }
 
 .modal_opened {
-    visibility: visible;
+  visibility: visible;
 }
 
 .modal__title {
-    font-size: 16px;
-    margin: 0;
-    font-weight: 700;
-    margin-bottom: 24px;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 700;
+  margin-bottom: 24px;
 }
 
 .modal__close {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 20px;
-    right: 28px;
-    cursor: pointer;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 20px;
+  right: 28px;
+  cursor: pointer;
 }
 
 .modal__content {
-    background-color: #fff;
-    position: relative;
-    padding: 28px 28px 36px;
-    border-radius: 20px;
-    max-width: 496px;
-    width: 100%;
-    box-sizing: border-box;
+  background-color: #fff;
+  position: relative;
+  padding: 28px 28px 36px;
+  border-radius: 20px;
+  max-width: 496px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.modal__form{
-    display: flex;
-    flex-direction: column;
+.modal__form {
+  display: flex;
+  flex-direction: column;
 }
 
 .modal__label {
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
 }
 
-
 .modal__input {
-    display:block;
-    padding: 8px 0; 
-    font-size: 16px;
-    border: none;
-    border-bottom: 1px solid #000;
-    margin-top: 4px;
+  display: block;
+  padding: 8px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid #000;
+  margin-top: 4px;
 }
 
 .modal__legend {
-    font-size: 16px;
-    font-weight: 700;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .modal__radio-buttons {
-    border: none;
-    padding: 0;
-    display: block;
-    flex-direction: column;
-    
+  border: none;
+  padding: 0;
+  display: block;
+  flex-direction: column;
 }
 
 .modal__radio-input {
-    margin-right: 11px;
+  margin-right: 11px;
 }
 
 .modal__label_type_radio {
-    display: block;
-    flex-direction: column;
-    margin-top: 12px;
+  display: block;
+  flex-direction: column;
+  margin-top: 12px;
 }
 
 .modal__submit {
-    padding: 8px 16px;
-    background: #000;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 500;
-    width: 124px;
-    height: 36px;
-    color: white;
-    cursor: not-allowed;
-    margin-top: 32px;
-    font-family: "Cabinet Grotesk", sans-serif !important;
+  padding: 8px 16px;
+  background: #000;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 124px;
+  height: 36px;
+  color: white;
+  cursor: not-allowed;
+  margin-top: 32px;
+  font-family: "Cabinet Grotesk", sans-serif !important;
 }
