@@ -19,7 +19,7 @@
 }
 
 .header__add-clothes-btn {
-  margin: 0 20px 0 auto;
+  margin-right: 20px;
   border: none;
   background-color: transparent;
   font-size: 20px;
@@ -36,4 +36,9 @@
   margin: 0;
   font-size: 20px;
   font-weight: bold;
+}
+
+.header__link {
+  text-decoration: none;
+  color: inherit;
 }

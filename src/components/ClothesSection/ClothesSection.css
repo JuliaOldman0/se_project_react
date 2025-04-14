@@ -1,0 +1,35 @@
+.clothes-section {
+  width: 1015px;
+}
+
+.clothes-section__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 323px);
+  justify-content: center;
+}
+
+.clothes-section__header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.clothes-section__your-items {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.clothes-section__add-btn {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  background-color: transparent;
+}

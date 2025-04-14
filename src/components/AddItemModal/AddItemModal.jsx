@@ -21,8 +21,9 @@ function AddItemModal({ onClose, isOpen, onAddItemModalSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddItemModalSubmit({name, imageUrl, weather});
-    // empty the inputs
+
+   
+    onAddItemModalSubmit({ name, imageUrl, weather });
     setName("");
     setImageUrl("");
     setWeather("");
@@ -32,9 +33,10 @@ function AddItemModal({ onClose, isOpen, onAddItemModalSubmit }) {
     <ModalWithForm
       buttonText="Add garment"
       title="New garment"
+      // onAddItemModalSubmit={handleAddItemModalSubmit}
       isOpen={isOpen}
-      // setActiveModal={activeModal}
       onClose={onClose}
+      // setActiveModal={activeModal}
       onSubmit={handleSubmit}
     >
       <label htmlFor="name" className="modal__label">
