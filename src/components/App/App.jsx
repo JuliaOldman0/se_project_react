@@ -14,6 +14,7 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import { defaultClothingItems } from "../../utils/constants";
 import { getItems } from "../../utils/api";
 
+
 function App() {
   const [weatherData, setWeatherData] = useState({
     type: "",
@@ -52,6 +53,17 @@ function App() {
     ]);
     closeActiveModal();
   };
+
+  const handleDeleteItem = (cardToDelete) => {
+    // Simulate API call
+    // deleteClothingItem(cardToDelete._id).then(() => {
+      setClothingItems((prevItems) =>
+        prevItems.filter((item) => item._id !== cardToDelete._id)
+      );
+      closeActiveModal();
+    // });
+  };
+  
 
   useEffect(() => {
     getWeather(coordinates, APIkey)
@@ -111,6 +123,7 @@ function App() {
             activeModal={activeModal}
             card={selectedCard}
             onClose={closeActiveModal}
+            onDelete={handleDeleteItem}
           />
         </div>
       </div>
