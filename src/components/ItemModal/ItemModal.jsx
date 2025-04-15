@@ -13,7 +13,7 @@ function ItemModal({ activeModal, onClose, card, onDelete }) {
           <img src={closeBtn} alt="Close button" />
         </button>
         <img
-          src={card.link}
+          src={card.imageUrl}
           alt="Weather clothes Image"
           className="modal__image"
         />

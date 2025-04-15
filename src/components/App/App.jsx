@@ -11,8 +11,7 @@ import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTempUnitContext from "../../contexts/CurrentTempUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
-import { defaultClothingItems } from "../../utils/constants";
-import { getItems } from "../../utils/api";
+import { getItems, addItem, deleteItem } from "../../utils/api";
 
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
     isDay: false,
   });
 
-  const [clothingItems, setClothingItems] = useState(defaultClothingItems);
+  const [clothingItems, setClothingItems] = useState([]);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTempUnit, setCurrentTempUnit] = useState("F");
@@ -47,21 +46,24 @@ function App() {
   };
 
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
-    setClothingItems((prevItems) => [
-      { name, link: imageUrl, weather },
-      ...prevItems,
-    ]);
-    closeActiveModal();
+    addItem({ name, imageUrl, weather })
+      .then((newItem) => {
+        setClothingItems((prev) => [newItem, ...prev]);
+        closeActiveModal();
+      })
+      .catch(console.error);
   };
+  
 
   const handleDeleteItem = (cardToDelete) => {
-    // Simulate API call
-    // deleteClothingItem(cardToDelete._id).then(() => {
-      setClothingItems((prevItems) =>
-        prevItems.filter((item) => item._id !== cardToDelete._id)
-      );
-      closeActiveModal();
-    // });
+    deleteItem(cardToDelete._id)
+      .then(() => {
+        setClothingItems((prevItems) =>
+          prevItems.filter((item) => item._id !== cardToDelete._id)
+        );
+        closeActiveModal();
+      })
+      .catch(console.error);
   };
   
 
@@ -72,12 +74,11 @@ function App() {
         setWeatherData(filteredData);
       })
       .catch(console.error);
-  }, [coordinates, APIkey]);
+  }, []); 
 
   useEffect(() => {
     getItems()
       .then((data) => {
-        console.log(data);
         setClothingItems(data);
       })
       .catch(console.error);
@@ -108,6 +109,8 @@ function App() {
                 <Profile
                   clothingItems={clothingItems}
                   handleCardClick={handleCardClick}
+                  handleAddClick={handleAddClick}
+                  weatherData={weatherData}
                 />
               }
             />
