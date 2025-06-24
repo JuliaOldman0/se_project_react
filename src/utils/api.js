@@ -1,5 +1,6 @@
 const baseUrl = "http://localhost:3001";
 
+// Helper to check response
 export function checkResponse(res) {
   if (res.ok) {
     return res.json();
@@ -7,27 +8,37 @@ export function checkResponse(res) {
   return Promise.reject(`Error: ${res.status}`);
 }
 
+// Generic request wrapper
 function request(url, options) {
-  return fetch(url, options).then(checkResponse);
+  return fetch(`${baseUrl}${url}`, options).then(checkResponse);
 }
 
+// GET /items — Public, no token needed
 function getItems() {
-  return request(`${baseUrl}/items`);
+  return request(`/items`, {
+    method: "GET",
+  });
 }
 
-function addItem({ name, imageUrl, weather }) {
-  return request(`${baseUrl}/items`, {
+// POST /items — Requires auth token
+function addItem({ name, imageUrl, weather }, token) {
+  return request(`/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ name, imageUrl, weather }),
   });
 }
 
-function deleteItem(id) {
-  return request(`${baseUrl}/items/${id}`, {
+// DELETE /items/:id — Requires auth token
+function deleteItem(id, token) {
+  return request(`/items/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 }
 

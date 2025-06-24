@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import "./App.css";
 import { coordinates, APIkey } from "../../utils/constants";
@@ -12,9 +12,14 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTempUnitContext from "../../contexts/CurrentTempUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import { getItems, addItem, deleteItem } from "../../utils/api";
-
+import { register, authorize, checkToken } from "../../utils/auth";
+import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
+  const navigate = useNavigate();
+
   const [weatherData, setWeatherData] = useState({
     type: "",
     temp: { F: 999, C: 999 },
@@ -27,6 +32,8 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTempUnit, setCurrentTempUnit] = useState("F");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authMessage, setAuthMessage] = useState("");
 
   const handleToggleSwitchChange = () => {
     setCurrentTempUnit(currentTempUnit === "F" ? "C" : "F");
@@ -43,20 +50,22 @@ function App() {
 
   const closeActiveModal = () => {
     setActiveModal("");
+    setAuthMessage("");
   };
 
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
-    addItem({ name, imageUrl, weather })
+    const token = localStorage.getItem("jwt");
+    addItem({ name, imageUrl, weather }, token)
       .then((newItem) => {
         setClothingItems((prev) => [newItem, ...prev]);
         closeActiveModal();
       })
       .catch(console.error);
   };
-  
 
   const handleDeleteItem = (cardToDelete) => {
-    deleteItem(cardToDelete._id)
+    const token = localStorage.getItem("jwt");
+    deleteItem(cardToDelete._id, token)
       .then(() => {
         setClothingItems((prevItems) =>
           prevItems.filter((item) => item._id !== cardToDelete._id)
@@ -65,7 +74,46 @@ function App() {
       })
       .catch(console.error);
   };
-  
+
+  const handleRegister = (formData) => {
+    register(formData)
+      .then(() =>
+        handleLogin({ email: formData.email, password: formData.password })
+      )
+      .catch((err) => {
+        console.error(err);
+        setAuthMessage("Registration failed. Please try again.");
+      });
+  };
+
+  const handleLogin = (formData) => {
+    authorize(formData)
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        setIsLoggedIn(true);
+        navigate("/profile");
+        closeActiveModal();
+      })
+      .catch((err) => {
+        console.error(err);
+        setAuthMessage("Login failed. Please check your credentials.");
+      });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      checkToken(token)
+        .then(() => setIsLoggedIn(true))
+        .catch(() => localStorage.removeItem("jwt"));
+    }
+  }, []);
 
   useEffect(() => {
     getWeather(coordinates, APIkey)
@@ -74,7 +122,7 @@ function App() {
         setWeatherData(filteredData);
       })
       .catch(console.error);
-  }, []); 
+  }, []);
 
   useEffect(() => {
     getItems()
@@ -90,7 +138,14 @@ function App() {
     >
       <div className="page">
         <div className="page__content">
-          <Header handleAddClick={handleAddClick} weatherData={weatherData} />
+          <Header
+            handleAddClick={handleAddClick}
+            weatherData={weatherData}
+            onLogin={() => setActiveModal("login")}
+            onRegister={() => setActiveModal("register")}
+            onLogout={handleLogout}
+            isLoggedIn={isLoggedIn}
+          />
 
           <Routes>
             <Route
@@ -106,27 +161,46 @@ function App() {
             <Route
               path="/profile"
               element={
-                <Profile
-                  clothingItems={clothingItems}
-                  handleCardClick={handleCardClick}
-                  handleAddClick={handleAddClick}
-                  weatherData={weatherData}
-                />
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
+                    clothingItems={clothingItems}
+                    handleCardClick={handleCardClick}
+                    handleAddClick={handleAddClick}
+                    weatherData={weatherData}
+                    isLoggedIn={isLoggedIn}
+                  />
+                </ProtectedRoute>
               }
             />
           </Routes>
 
           <Footer />
+
           <AddItemModal
             isOpen={activeModal === "add-garment"}
             onClose={closeActiveModal}
             onAddItemModalSubmit={handleAddItemModalSubmit}
           />
+
           <ItemModal
             activeModal={activeModal}
             card={selectedCard}
             onClose={closeActiveModal}
             onDelete={handleDeleteItem}
+          />
+
+          <RegisterModal
+            isOpen={activeModal === "register"}
+            onClose={closeActiveModal}
+            onRegister={handleRegister}
+            message={authMessage}
+          />
+
+          <LoginModal
+            isOpen={activeModal === "login"}
+            onClose={closeActiveModal}
+            onLogin={handleLogin}
+            message={authMessage}
           />
         </div>
       </div>
