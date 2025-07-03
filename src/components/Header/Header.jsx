@@ -29,18 +29,16 @@ function Header({
 
       <ToggleSwitch />
 
-      {isLoggedIn && (
-        <button
-          onClick={handleAddClick}
-          type="button"
-          className="header__add-clothes-btn"
-        >
-          + Add clothes
-        </button>
-      )}
-
       {isLoggedIn ? (
-        <>
+        <div className="header__auth-buttons">
+          <button
+            onClick={handleAddClick}
+            type="button"
+            className="header__add-clothes-btn"
+          >
+            + Add clothes
+          </button>
+
           <Link to="/profile" className="header__link">
             <div className="header__user-container">
               <p className="header__user-name">Terrence Tegegne</p>
@@ -51,27 +49,32 @@ function Header({
               />
             </div>
           </Link>
+
           <button
             type="button"
             onClick={onLogout}
-            className="header__logout-btn"
+            className="header__auth-button"
           >
             Log out
           </button>
-        </>
+        </div>
       ) : (
-        <>
-          <button type="button" onClick={onLogin} className="header__auth-btn">
-            Log in
-          </button>
+        <div className="header__auth-buttons">
           <button
             type="button"
             onClick={onRegister}
-            className="header__auth-btn"
+            className="header__auth-button"
           >
-            Sign up
+            Sign Up
           </button>
-        </>
+          <button
+            type="button"
+            onClick={onLogin}
+            className="header__auth-button"
+          >
+            Log In
+          </button>
+        </div>
       )}
     </header>
   );

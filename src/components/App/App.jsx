@@ -106,6 +106,14 @@ function App() {
     navigate("/");
   };
 
+  const switchToLogin = () => {
+    setActiveModal("login");
+  };
+
+  const switchToRegister = () => {
+    setActiveModal("register");
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -141,8 +149,8 @@ function App() {
           <Header
             handleAddClick={handleAddClick}
             weatherData={weatherData}
-            onLogin={() => setActiveModal("login")}
-            onRegister={() => setActiveModal("register")}
+            onLogin={switchToLogin}
+            onRegister={switchToRegister}
             onLogout={handleLogout}
             isLoggedIn={isLoggedIn}
           />
@@ -194,6 +202,7 @@ function App() {
             onClose={closeActiveModal}
             onRegister={handleRegister}
             message={authMessage}
+            onSwitchToLogin={switchToLogin}
           />
 
           <LoginModal
@@ -201,6 +210,7 @@ function App() {
             onClose={closeActiveModal}
             onLogin={handleLogin}
             message={authMessage}
+            onSwitchToRegister={switchToRegister}
           />
         </div>
       </div>

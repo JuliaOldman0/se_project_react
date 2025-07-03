@@ -19,21 +19,29 @@ function LoginModal({ isOpen, onClose, onLogin, message }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      buttonText="Log in"
     >
-      <label>
+      <label className="modal__label">
         Email
-        <input type="email" name="email" required onChange={handleChange} />
+        <input
+          className="modal__input"
+          type="email"
+          name="email"
+          required
+          onChange={handleChange}
+        />
       </label>
-      <label>
+      <label className="modal__label">
         Password
         <input
+          className="modal__input"
           type="password"
           name="password"
           required
           onChange={handleChange}
         />
       </label>
-      {message && <p className="auth-message">{message}</p>}
+      {message && <p className="modal__auth-message">{message}</p>}
     </ModalWithForm>
   );
 }

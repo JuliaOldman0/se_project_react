@@ -1,13 +1,30 @@
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function RegisterModal({ isOpen, onClose, onRegister, message }) {
+function RegisterModal({
+  isOpen,
+  onClose,
+  onRegister,
+  message,
+  onSwitchToLogin,
+}) {
   const [formData, setFormData] = useState({
-    name: "",
-    avatar: "",
     email: "",
     password: "",
+    name: "",
+    avatar: "",
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        email: "",
+        password: "",
+        name: "",
+        avatar: "",
+      });
+    }
+  }, [isOpen]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,35 +35,80 @@ function RegisterModal({ isOpen, onClose, onRegister, message }) {
     onRegister(formData);
   };
 
+  const isFormValid = Object.values(formData).every(
+    (field) => field.trim() !== ""
+  );
+
   return (
     <ModalWithForm
-      title="Sign up"
+      title="Sign Up"
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      buttonText="Sign Up"
+      isDisabled={!isFormValid}
     >
-      <label>
-        Name
-        <input type="text" name="name" required onChange={handleChange} />
-      </label>
-      <label>
-        Avatar URL
-        <input type="url" name="avatar" required onChange={handleChange} />
-      </label>
-      <label>
-        Email
-        <input type="email" name="email" required onChange={handleChange} />
-      </label>
-      <label>
-        Password
+      <label className="modal__label">
+        Email*
         <input
-          type="password"
-          name="password"
+          className="modal__input"
+          type="email"
+          name="email"
+          placeholder="Email"
           required
+          value={formData.email}
           onChange={handleChange}
         />
       </label>
-      {message && <p className="auth-message">{message}</p>}
+
+      <label className="modal__label">
+        Password*
+        <input
+          className="modal__input"
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </label>
+
+      <label className="modal__label">
+        Name*
+        <input
+          className="modal__input"
+          type="text"
+          name="name"
+          placeholder="Name"
+          required
+          value={formData.name}
+          onChange={handleChange}
+        />
+      </label>
+
+      <label className="modal__label">
+        Avatar URL*
+        <input
+          className="modal__input"
+          type="url"
+          name="avatar"
+          placeholder="Avatar URL"
+          required
+          value={formData.avatar}
+          onChange={handleChange}
+        />
+      </label>
+
+      {message && <p className="modal__auth-message">{message}</p>}
+
+      <div className="modal__switch-row">
+        
+        <span className="modal__or-text">or</span>
+        <button type="button" className="modal__link" onClick={onSwitchToLogin}>
+          Log In
+        </button>
+      </div>
     </ModalWithForm>
   );
 }

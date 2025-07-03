@@ -9,26 +9,11 @@
   justify-content: center;
   align-items: center;
   visibility: hidden;
+  z-index: 10;
 }
 
 .modal_opened {
   visibility: visible;
-}
-
-.modal__title {
-  font-size: 16px;
-  margin: 0;
-  font-weight: 700;
-  margin-bottom: 24px;
-}
-
-.modal__close {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 20px;
-  right: 28px;
-  cursor: pointer;
 }
 
 .modal__content {
@@ -41,48 +26,52 @@
   box-sizing: border-box;
 }
 
+.modal__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 32px;
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+
+.modal__close {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
 .modal__form {
   display: flex;
   flex-direction: column;
 }
 
 .modal__label {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   display: flex;
   flex-direction: column;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+  font-family: "Cabinet Grotesk", sans-serif;
 }
 
 .modal__input {
-  display: block;
   padding: 8px 0;
   font-size: 16px;
   border: none;
   border-bottom: 1px solid #000;
   margin-top: 4px;
+  font-family: "Cabinet Grotesk", sans-serif;
+  color: #000;
 }
 
-.modal__legend {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.modal__radio-buttons {
-  border: none;
-  padding: 0;
-  display: block;
-  flex-direction: column;
-}
-
-.modal__radio-input {
-  margin-right: 11px;
-}
-
-.modal__label_type_radio {
-  display: block;
-  flex-direction: column;
-  margin-top: 12px;
+.modal__input::placeholder {
+  color: gray;
+  font-weight: 400;
 }
 
 .modal__submit {
@@ -91,11 +80,51 @@
   border: none;
   border-radius: 6px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   width: 124px;
   height: 36px;
   color: white;
+  cursor: pointer;
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+
+.modal__submit:disabled {
+  background-color: #ccc;
+  color: #fff;
   cursor: not-allowed;
-  margin-top: 32px;
-  font-family: "Cabinet Grotesk", sans-serif !important;
+}
+
+.modal__auth-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 12px;
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+
+/* Link button for switching modal (Log In) */
+.modal__link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #000;
+  opacity: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+
+.modal__switch-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.modal__or-text {
+  font-size: 16px;
+  font-weight: 700;
+  opacity: 0.5;
+  font-family: "Cabinet Grotesk", sans-serif;
 }
