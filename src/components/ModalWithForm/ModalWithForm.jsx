@@ -9,6 +9,7 @@ function ModalWithForm({
   isOpen,
   onSubmit,
   isDisabled,
+  switchLink,
 }) {
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
@@ -19,13 +20,17 @@ function ModalWithForm({
         </button>
         <form onSubmit={onSubmit} className="modal__form">
           {children}
-          <button
-            type="submit"
-            className="modal__submit"
-            disabled={isDisabled} 
-          >
-            {buttonText}
-          </button>
+          <div className="modal__actions">
+            {" "}
+            <button
+              type="submit"
+              className="modal__submit"
+              disabled={isDisabled}
+            >
+              {buttonText}
+            </button>
+            {switchLink && switchLink}
+          </div>
         </form>
       </div>
     </div>

@@ -101,17 +101,23 @@
   font-family: "Cabinet Grotesk", sans-serif;
 }
 
-/* Link button for switching modal (Log In) */
 .modal__link {
   background: none;
   border: none;
-  padding: 0;
   color: #000;
   opacity: 50%;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   font-family: "Cabinet Grotesk", sans-serif;
+}
+
+/* Horizontal alignment for submit + switch link (e.g. Log In or Sign Up) */
+.modal__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
 }
 
 .modal__switch-row {

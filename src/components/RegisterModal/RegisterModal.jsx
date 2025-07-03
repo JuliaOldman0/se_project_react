@@ -47,6 +47,11 @@ function RegisterModal({
       onSubmit={handleSubmit}
       buttonText="Sign Up"
       isDisabled={!isFormValid}
+      switchLink={
+        <button type="button" className="modal__link" onClick={onSwitchToLogin}>
+          or Log In
+        </button>
+      }
     >
       <label className="modal__label">
         Email*
@@ -101,14 +106,6 @@ function RegisterModal({
       </label>
 
       {message && <p className="modal__auth-message">{message}</p>}
-
-      <div className="modal__switch-row">
-        
-        <span className="modal__or-text">or</span>
-        <button type="button" className="modal__link" onClick={onSwitchToLogin}>
-          Log In
-        </button>
-      </div>
     </ModalWithForm>
   );
 }

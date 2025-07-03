@@ -210,7 +210,7 @@ function App() {
             onClose={closeActiveModal}
             onLogin={handleLogin}
             message={authMessage}
-            onSwitchToRegister={switchToRegister}
+            onSwitchToRegister={() => setActiveModal("register")}
           />
         </div>
       </div>
