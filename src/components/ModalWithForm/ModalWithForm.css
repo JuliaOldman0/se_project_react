@@ -112,7 +112,6 @@
   font-family: "Cabinet Grotesk", sans-serif;
 }
 
-/* Horizontal alignment for submit + switch link (e.g. Log In or Sign Up) */
 .modal__actions {
   display: flex;
   align-items: center;
