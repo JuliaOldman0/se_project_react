@@ -180,6 +180,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<div>Not Found</div>} /> // Fallback for undefined routes
           </Routes>
 
           <Footer />
