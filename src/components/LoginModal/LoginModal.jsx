@@ -1,10 +1,15 @@
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./LoginModal.css";
-
 
 function LoginModal({ isOpen, onClose, onLogin, message, onSwitchToRegister }) {
   const [formData, setFormData] = useState({ email: "", password: "" });
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({ email: "", password: "" });
+    }
+  }, [isOpen]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,7 +21,7 @@ function LoginModal({ isOpen, onClose, onLogin, message, onSwitchToRegister }) {
   };
 
   const isFormValid = Object.values(formData).every(
-    (field) => field.trim() !== ""
+    (field) => field.trim() !== "",
   );
 
   return (

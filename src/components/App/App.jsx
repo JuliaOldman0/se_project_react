@@ -32,7 +32,9 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTempUnit, setCurrentTempUnit] = useState("F");
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
 
   const handleToggleSwitchChange = () => {
@@ -55,6 +57,8 @@ function App() {
 
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
     const token = localStorage.getItem("jwt");
+    if (!token) return;
+
     addItem({ name, imageUrl, weather }, token)
       .then((newItem) => {
         setClothingItems((prev) => [newItem, ...prev]);
@@ -65,10 +69,12 @@ function App() {
 
   const handleDeleteItem = (cardToDelete) => {
     const token = localStorage.getItem("jwt");
+    if (!token) return;
+
     deleteItem(cardToDelete._id, token)
       .then(() => {
         setClothingItems((prevItems) =>
-          prevItems.filter((item) => item._id !== cardToDelete._id)
+          prevItems.filter((item) => item._id !== cardToDelete._id),
         );
         closeActiveModal();
       })
@@ -78,7 +84,7 @@ function App() {
   const handleRegister = (formData) => {
     register(formData)
       .then(() =>
-        handleLogin({ email: formData.email, password: formData.password })
+        handleLogin({ email: formData.email, password: formData.password }),
       )
       .catch((err) => {
         console.error(err);
@@ -89,8 +95,17 @@ function App() {
   const handleLogin = (formData) => {
     authorize(formData)
       .then((res) => {
+        if (!res?.token) {
+          return Promise.reject("No token returned from server");
+        }
+
         localStorage.setItem("jwt", res.token);
         setIsLoggedIn(true);
+
+        return checkToken(res.token);
+      })
+      .then((user) => {
+        setCurrentUser(user);
         navigate("/profile");
         closeActiveModal();
       })
@@ -103,6 +118,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
+    setCurrentUser(null);
     navigate("/");
   };
 
@@ -116,10 +132,17 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
+
     if (token) {
       checkToken(token)
-        .then(() => setIsLoggedIn(true))
-        .catch(() => localStorage.removeItem("jwt"));
+        .then((user) => {
+          setIsLoggedIn(true);
+          setCurrentUser(user);
+        })
+        .catch((err) => {
+          console.error(err);
+          localStorage.removeItem("jwt");
+        });
     }
   }, []);
 
@@ -153,6 +176,7 @@ function App() {
             onRegister={switchToRegister}
             onLogout={handleLogout}
             isLoggedIn={isLoggedIn}
+            currentUser={currentUser}
           />
 
           <Routes>
@@ -166,6 +190,7 @@ function App() {
                 />
               }
             />
+
             <Route
               path="/profile"
               element={
@@ -176,6 +201,7 @@ function App() {
                     handleAddClick={handleAddClick}
                     weatherData={weatherData}
                     isLoggedIn={isLoggedIn}
+                    currentUser={currentUser}
                   />
                 </ProtectedRoute>
               }

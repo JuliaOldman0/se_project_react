@@ -26,7 +26,7 @@ function addItem({ name, imageUrl, weather }, token) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ name, imageUrl, weather }),
   });
@@ -37,7 +37,7 @@ function deleteItem(id, token) {
   return request(`/items/${id}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
     },
   });
 }
