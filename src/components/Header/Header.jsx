@@ -1,8 +1,9 @@
 import "./Header.css";
 import logo from "../../assets/logo.svg";
-import avatar from "../../assets/avatar.png";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Header({
   handleAddClick,
@@ -12,10 +13,16 @@ function Header({
   onLogout,
   isLoggedIn,
 }) {
+  const currentUser = useContext(CurrentUserContext);
+
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
+
+  const userName = currentUser?.name || "User";
+  const userAvatar = currentUser?.avatar;
+  const userInitial = userName.charAt(0).toUpperCase();
 
   return (
     <header className="header">
@@ -29,7 +36,7 @@ function Header({
 
       <ToggleSwitch />
 
-      {isLoggedIn ? (
+      {isLoggedIn ?
         <div className="header__auth-buttons">
           <button
             onClick={handleAddClick}
@@ -41,12 +48,18 @@ function Header({
 
           <Link to="/profile" className="header__link">
             <div className="header__user-container">
-              <p className="header__user-name">Terrence Tegegne</p>
-              <img
-                className="header__user-avatar"
-                src={avatar}
-                alt="User avatar"
-              />
+              <p className="header__user-name">{userName}</p>
+
+              {userAvatar ?
+                <img
+                  className="header__user-avatar"
+                  src={userAvatar}
+                  alt={userName}
+                />
+              : <div className="header__user-avatar-placeholder">
+                  {userInitial}
+                </div>
+              }
             </div>
           </Link>
 
@@ -58,8 +71,7 @@ function Header({
             Log out
           </button>
         </div>
-      ) : (
-        <div className="header__auth-buttons">
+      : <div className="header__auth-buttons">
           <button
             type="button"
             onClick={onRegister}
@@ -75,7 +87,7 @@ function Header({
             Log In
           </button>
         </div>
-      )}
+      }
     </header>
   );
 }
