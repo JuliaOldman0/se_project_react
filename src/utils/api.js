@@ -54,4 +54,29 @@ function updateUserProfile({ name, avatar }, token) {
   });
 }
 
-export { getItems, addItem, deleteItem, updateUserProfile };
+function addCardLike(id, token) {
+  return request(`/items/${id}/likes`, {
+    method: "PUT",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+function removeCardLike(id, token) {
+  return request(`/items/${id}/likes`, {
+    method: "DELETE",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export {
+  getItems,
+  addItem,
+  deleteItem,
+  updateUserProfile,
+  addCardLike,
+  removeCardLike,
+};

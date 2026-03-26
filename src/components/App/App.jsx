@@ -17,6 +17,8 @@ import {
   addItem,
   deleteItem,
   updateUserProfile,
+  addCardLike,
+  removeCardLike,
 } from "../../utils/api";
 import { register, authorize, checkToken } from "../../utils/auth";
 import LoginModal from "../LoginModal/LoginModal";
@@ -169,6 +171,27 @@ function App() {
     navigate("/");
   };
 
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    if (!token) return;
+
+    !isLiked ?
+      addCardLike(id, token)
+        .then((updatedCard) => {
+          setClothingItems((cards) =>
+            cards.map((item) => (item._id === id ? updatedCard : item)),
+          );
+        })
+        .catch(console.error)
+    : removeCardLike(id, token)
+        .then((updatedCard) => {
+          setClothingItems((cards) =>
+            cards.map((item) => (item._id === id ? updatedCard : item)),
+          );
+        })
+        .catch(console.error);
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("jwt");
 
@@ -229,6 +252,8 @@ function App() {
                     weatherData={weatherData}
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
+                    onCardLike={handleCardLike}
+                    isLoggedIn={isLoggedIn}
                   />
                 }
               />
