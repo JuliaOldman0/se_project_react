@@ -8,12 +8,15 @@ function Profile({
   handleAddClick,
   weatherData,
   isLoggedIn,
+  onEditProfile,
+  onLogout,
 }) {
   return (
     <div className="profile">
       <section className="profile__sidebar">
-        <SideBar />
+        <SideBar onEditProfile={onEditProfile} onLogout={onLogout} />
       </section>
+
       <section className="profile__clothing-items">
         <ClothesSection
           clothingItems={clothingItems}

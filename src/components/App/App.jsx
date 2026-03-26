@@ -12,10 +12,16 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTempUnitContext from "../../contexts/CurrentTempUnitContext";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
-import { getItems, addItem, deleteItem } from "../../utils/api";
+import {
+  getItems,
+  addItem,
+  deleteItem,
+  updateUserProfile,
+} from "../../utils/api";
 import { register, authorize, checkToken } from "../../utils/auth";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
@@ -49,6 +55,10 @@ function App() {
 
   const handleAddClick = () => {
     setActiveModal("add-garment");
+  };
+
+  const handleEditProfileClick = () => {
+    setActiveModal("edit-profile");
   };
 
   const closeActiveModal = () => {
@@ -87,6 +97,18 @@ function App() {
         setClothingItems((prevItems) =>
           prevItems.filter((item) => item._id !== cardToDelete._id),
         );
+        closeActiveModal();
+      })
+      .catch(console.error);
+  };
+
+  const handleUpdateProfile = ({ name, avatar }) => {
+    const token = localStorage.getItem("jwt");
+    if (!token) return;
+
+    updateUserProfile({ name, avatar }, token)
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
         closeActiveModal();
       })
       .catch(console.error);
@@ -221,7 +243,8 @@ function App() {
                       handleAddClick={handleAddClick}
                       weatherData={weatherData}
                       isLoggedIn={isLoggedIn}
-                      currentUser={currentUser}
+                      onEditProfile={handleEditProfileClick}
+                      onLogout={handleLogout}
                     />
                   </ProtectedRoute>
                 }
@@ -259,6 +282,12 @@ function App() {
               onLogin={handleLogin}
               message={authMessage}
               onSwitchToRegister={switchToRegister}
+            />
+
+            <EditProfileModal
+              isOpen={activeModal === "edit-profile"}
+              onClose={closeActiveModal}
+              onUpdateProfile={handleUpdateProfile}
             />
           </div>
         </div>

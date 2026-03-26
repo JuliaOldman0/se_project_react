@@ -42,4 +42,16 @@ function deleteItem(id, token) {
   });
 }
 
-export { getItems, addItem, deleteItem };
+// PATCH /users/me — Requires auth token
+function updateUserProfile({ name, avatar }, token) {
+  return request(`/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name, avatar }),
+  });
+}
+
+export { getItems, addItem, deleteItem, updateUserProfile };
