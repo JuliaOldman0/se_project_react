@@ -55,13 +55,23 @@ function App() {
     setAuthMessage("");
   };
 
+  const switchToLogin = () => {
+    setAuthMessage("");
+    setActiveModal("login");
+  };
+
+  const switchToRegister = () => {
+    setAuthMessage("");
+    setActiveModal("register");
+  };
+
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
     const token = localStorage.getItem("jwt");
     if (!token) return;
 
     addItem({ name, imageUrl, weather }, token)
       .then((newItem) => {
-        setClothingItems((prev) => [newItem, ...prev]);
+        setClothingItems((prevItems) => [newItem, ...prevItems]);
         closeActiveModal();
       })
       .catch(console.error);
@@ -81,19 +91,10 @@ function App() {
       .catch(console.error);
   };
 
-  const handleRegister = (formData) => {
-    register(formData)
-      .then(() =>
-        handleLogin({ email: formData.email, password: formData.password }),
-      )
-      .catch((err) => {
-        console.error(err);
-        setAuthMessage("Registration failed. Please try again.");
-      });
-  };
-
   const handleLogin = (formData) => {
-    authorize(formData)
+    setAuthMessage("");
+
+    return authorize(formData)
       .then((res) => {
         if (!res?.token) {
           return Promise.reject("No token returned from server");
@@ -106,12 +107,35 @@ function App() {
       })
       .then((user) => {
         setCurrentUser(user);
-        navigate("/profile");
         closeActiveModal();
+        navigate("/profile");
+        return user;
       })
       .catch((err) => {
         console.error(err);
+        localStorage.removeItem("jwt");
+        setIsLoggedIn(false);
+        setCurrentUser(null);
         setAuthMessage("Login failed. Please check your credentials.");
+        return Promise.reject(err);
+      });
+  };
+
+  const handleRegister = (formData) => {
+    setAuthMessage("");
+
+    return register(formData)
+      .then(() => {
+        closeActiveModal();
+
+        return handleLogin({
+          email: formData.email,
+          password: formData.password,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        setAuthMessage("Registration failed. Please try again.");
       });
   };
 
@@ -122,28 +146,22 @@ function App() {
     navigate("/");
   };
 
-  const switchToLogin = () => {
-    setActiveModal("login");
-  };
-
-  const switchToRegister = () => {
-    setActiveModal("register");
-  };
-
   useEffect(() => {
     const token = localStorage.getItem("jwt");
 
-    if (token) {
-      checkToken(token)
-        .then((user) => {
-          setIsLoggedIn(true);
-          setCurrentUser(user);
-        })
-        .catch((err) => {
-          console.error(err);
-          localStorage.removeItem("jwt");
-        });
-    }
+    if (!token) return;
+
+    checkToken(token)
+      .then((user) => {
+        setIsLoggedIn(true);
+        setCurrentUser(user);
+      })
+      .catch((err) => {
+        console.error(err);
+        localStorage.removeItem("jwt");
+        setIsLoggedIn(false);
+        setCurrentUser(null);
+      });
   }, []);
 
   useEffect(() => {
@@ -206,7 +224,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="*" element={<div>Not Found</div>} /> // Fallback for undefined routes
+
+            <Route path="*" element={<div>Not Found</div>} />
           </Routes>
 
           <Footer />
@@ -237,7 +256,7 @@ function App() {
             onClose={closeActiveModal}
             onLogin={handleLogin}
             message={authMessage}
-            onSwitchToRegister={() => setActiveModal("register")}
+            onSwitchToRegister={switchToRegister}
           />
         </div>
       </div>
