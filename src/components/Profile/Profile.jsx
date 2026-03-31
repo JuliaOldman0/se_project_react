@@ -10,6 +10,7 @@ function Profile({
   isLoggedIn,
   onEditProfile,
   onLogout,
+  onCardLike,
 }) {
   return (
     <div className="profile">
@@ -21,6 +22,7 @@ function Profile({
         <ClothesSection
           clothingItems={clothingItems}
           handleCardClick={handleCardClick}
+          weatherData={weatherData}
           handleAddClick={handleAddClick}
           isLoggedIn={isLoggedIn}
           onCardLike={onCardLike}
