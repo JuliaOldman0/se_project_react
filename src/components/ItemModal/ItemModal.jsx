@@ -3,7 +3,7 @@ import closeBtn from "../../assets/close_btn.png";
 import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-function ItemModal({ activeModal, onClose, card, onDelete }) {
+function ItemModal({ activeModal, onClose, card, onDelete, isLoggedIn }) {
   const currentUser = useContext(CurrentUserContext);
 
   const handleDeleteClick = () => {
@@ -11,7 +11,8 @@ function ItemModal({ activeModal, onClose, card, onDelete }) {
   };
 
   const isOwn =
-    card?.owner === currentUser?._id || card?.owner?._id === currentUser?._id;
+    isLoggedIn &&
+    (card?.owner === currentUser?._id || card?.owner?._id === currentUser?._id);
 
   return (
     <div className={`modal ${activeModal === "preview" ? "modal_opened" : ""}`}>

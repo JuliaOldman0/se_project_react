@@ -291,6 +291,7 @@ function App() {
               card={selectedCard}
               onClose={closeActiveModal}
               onDelete={handleDeleteItem}
+              isLoggedIn={isLoggedIn}
             />
 
             <RegisterModal
