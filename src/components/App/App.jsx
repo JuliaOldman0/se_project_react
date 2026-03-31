@@ -266,10 +266,10 @@ function App() {
                       clothingItems={clothingItems}
                       handleCardClick={handleCardClick}
                       handleAddClick={handleAddClick}
-                      weatherData={weatherData}
                       isLoggedIn={isLoggedIn}
                       onEditProfile={handleEditProfileClick}
                       onLogout={handleLogout}
+                      onCardLike={handleCardLike}
                     />
                   </ProtectedRoute>
                 }

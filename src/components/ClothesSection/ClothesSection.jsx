@@ -32,6 +32,8 @@ function ClothesSection({ clothingItems, handleCardClick, handleAddClick }) {
               key={item._id}
               item={item}
               onCardClick={handleCardClick}
+              onCardLike={onCardLike}
+              isLoggedIn={isLoggedIn}
             />
           );
         })}

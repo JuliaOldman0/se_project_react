@@ -21,9 +21,9 @@ function Profile({
         <ClothesSection
           clothingItems={clothingItems}
           handleCardClick={handleCardClick}
-          weatherData={weatherData}
           handleAddClick={handleAddClick}
           isLoggedIn={isLoggedIn}
+          onCardLike={onCardLike}
         />
       </section>
     </div>
