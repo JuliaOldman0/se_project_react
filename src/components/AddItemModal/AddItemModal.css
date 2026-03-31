@@ -1,68 +1,64 @@
-.modal__radio-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border: none;
-    padding: 0;
-    margin: 20px 0;
-    gap: 16px;
-  }
-  
-  .modal__legend {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  
-  .modal__label_type_radio {
-    display: flex;
-    flex-direction: row; 
-    align-items: center;     
-    gap: 10px;                
-    font-size: 18px;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.5);
-    cursor: pointer;
-  }
-  
-  .modal__radio-input {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #000;
-    border-radius: 50%;
-    background-color: #fff;
-    display: grid;
-    place-content: center;
-    margin: 0;
-    cursor: pointer;
-    transition: border-color 0.2s ease;
-  }
-  
-  .modal__radio-input::before {
-    content: "";
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: black;
-    transform: scale(0);
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .modal__radio-input:checked::before {
-    transform: scale(1);
-  }
-  
-  .modal__radio-input:checked ~ .modal__radio-text {
-    font-weight: 700;
-    color: #000;
-  }
-  
-  .modal__radio-input ~ .modal__radio-text {
-    transition: color 0.2s, font-weight 0.2s;
-  }
-  
-  .modal__radio-text {
-    display: inline-block;
-  }
-  
+.modal__fieldset {
+  border: none;
+  padding: 0;
+  margin: 24px 0 0;
+}
+
+.modal__legend {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.modal__radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.modal__radio-label:last-of-type {
+  margin-bottom: 0;
+}
+
+.modal__radio-input {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border: 1px solid #000;
+  border-radius: 50%;
+  background-color: #fff;
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.modal__radio-input::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #000;
+  opacity: 0;
+}
+
+.modal__radio-input:checked::before {
+  opacity: 1;
+}
+
+.modal__radio-text {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.modal__radio-input:checked + .modal__radio-text {
+  color: #000;
+}

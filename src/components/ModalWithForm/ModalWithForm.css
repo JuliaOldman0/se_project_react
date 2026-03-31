@@ -75,21 +75,27 @@
 }
 
 .modal__submit {
-  padding: 8px 16px;
+  min-width: 124px;
+  height: 36px;
+  padding: 0 16px;
   background: #000;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 16px;
   font-weight: 700;
-  width: 124px;
-  height: 36px;
-  color: white;
+  line-height: 1;
+  color: #fff;
   cursor: pointer;
   font-family: "Cabinet Grotesk", sans-serif;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .modal__submit:disabled {
-  background-color: #ccc;
+  background-color: #cfcfcf;
   color: #fff;
   cursor: not-allowed;
 }
@@ -117,6 +123,7 @@
   align-items: center;
   gap: 16px;
   margin-top: 32px;
+  flex-wrap: wrap;
 }
 
 .modal__switch-row {
