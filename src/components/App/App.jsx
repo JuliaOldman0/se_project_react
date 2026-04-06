@@ -126,12 +126,11 @@ function App() {
         }
 
         localStorage.setItem("jwt", res.token);
-        setIsLoggedIn(true);
-
         return checkToken(res.token);
       })
       .then((user) => {
         setCurrentUser(user);
+        setIsLoggedIn(true);
         closeActiveModal();
         navigate("/profile");
         return user;
@@ -227,6 +226,22 @@ function App() {
       .catch(console.error);
   }, []);
 
+useEffect(() => {
+  if (!activeModal) return;
+
+  const closeByEscape = (e) => {
+    if (e.key === "Escape") {
+      closeActiveModal();
+    }
+  };
+
+  document.addEventListener("keydown", closeByEscape);
+
+  return () => {
+    document.removeEventListener("keydown", closeByEscape);
+  };
+}, [activeModal]);
+
   return (
     <CurrentTempUnitContext.Provider
       value={{ currentTempUnit, handleToggleSwitchChange }}
@@ -241,7 +256,6 @@ function App() {
               onRegister={switchToRegister}
               onLogout={handleLogout}
               isLoggedIn={isLoggedIn}
-              currentUser={currentUser}
             />
 
             <Routes>

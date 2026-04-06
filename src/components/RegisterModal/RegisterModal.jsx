@@ -1,5 +1,6 @@
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import useForm from "../../hooks/useForm";
 import "./RegisterModal.css";
 
 function RegisterModal({
@@ -9,7 +10,7 @@ function RegisterModal({
   message,
   onSwitchToLogin,
 }) {
-  const [formData, setFormData] = useState({
+  const { values, handleChange, resetForm } = useForm({
     email: "",
     password: "",
     name: "",
@@ -18,26 +19,22 @@ function RegisterModal({
 
   useEffect(() => {
     if (isOpen) {
-      setFormData({
+      resetForm({
         email: "",
         password: "",
         name: "",
         avatar: "",
       });
     }
-  }, [isOpen]);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  }, [isOpen, resetForm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister(formData);
+    onRegister(values);
   };
 
-  const isFormValid = Object.values(formData).every(
-    (field) => field.trim() !== ""
+  const isFormValid = Object.values(values).every(
+    (field) => field.trim() !== "",
   );
 
   return (
@@ -62,7 +59,7 @@ function RegisterModal({
           name="email"
           placeholder="Email"
           required
-          value={formData.email}
+          value={values.email}
           onChange={handleChange}
         />
       </label>
@@ -75,7 +72,7 @@ function RegisterModal({
           name="password"
           placeholder="Password"
           required
-          value={formData.password}
+          value={values.password}
           onChange={handleChange}
         />
       </label>
@@ -88,7 +85,7 @@ function RegisterModal({
           name="name"
           placeholder="Name"
           required
-          value={formData.name}
+          value={values.name}
           onChange={handleChange}
         />
       </label>
@@ -101,7 +98,7 @@ function RegisterModal({
           name="avatar"
           placeholder="Avatar URL"
           required
-          value={formData.avatar}
+          value={values.avatar}
           onChange={handleChange}
         />
       </label>
