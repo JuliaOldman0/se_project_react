@@ -75,4 +75,9 @@ export const coordinates = {
   longitude: -74.00927,
 };
 
+export const baseUrl =
+  process.env.NODE_ENV === "production" ?
+    "https://api.wearwise.darkwolf.ca"
+  : "http://localhost:3001";
+
 export const APIkey = "e42b7ace2f914435cbe3a5b48484eb18";
