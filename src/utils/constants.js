@@ -47,17 +47,17 @@ export const weatherOptions = [
   {
     day: false,
     condition: "storm",
-    url: new URL("../assets/night/n_storm.png", import.meta.url).href,
+    url: new URL("../assets/night/n-storm.png", import.meta.url).href,
   },
   {
     day: false,
     condition: "snow",
-    url: new URL("../assets/night/n_snow.png", import.meta.url).href,
+    url: new URL("../assets/night/n-snow.png", import.meta.url).href,
   },
   {
     day: false,
     condition: "fog",
-    url: new URL("../assets/night/n_fog.png", import.meta.url).href,
+    url: new URL("../assets/night/n-fog.png", import.meta.url).href,
   },
 ];
 
